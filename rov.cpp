@@ -5,19 +5,40 @@
  
   This example code is in the public domain.
  */
+#include <Wire.h>
+#include <ArduinoNunchuk.h>
+
 #if ARDUINO >= 100
     #include "Arduino.h"
 #else
     #include "WProgram.h"
 #endif
 
+#define BAUDRATE 19200
+
+ArduinoNunchuk nunchuk = ArduinoNunchuk();
+
 void setup() {                
-  pinMode(13, OUTPUT);     
+  Serial.begin(BAUDRATE);
+  nunchuk.init();
 }
 
 void loop() {
-  digitalWrite(13, HIGH);   // set the LED on
-  delay(1000);           // wait for a second
-  digitalWrite(13, LOW);    // set the LED off
-  delay(1000);           // wait for a second
+  nunchuk.update();
+
+  Serial.print("X ");
+  Serial.print(nunchuk.analogX, DEC);
+  Serial.print(" Y ");
+  Serial.print(nunchuk.analogY, DEC);
+  Serial.print(" aX ");
+  Serial.print(nunchuk.accelX, DEC);
+  Serial.print(" aY ");
+  Serial.print(nunchuk.accelY, DEC);
+  Serial.print(" aZ ");
+  Serial.print(nunchuk.accelZ, DEC);
+  Serial.print(" zB ");
+  Serial.print(nunchuk.zButton, DEC);
+  Serial.print(" cB ");
+  Serial.println(nunchuk.cButton, DEC);
+  delay(2000);
 }

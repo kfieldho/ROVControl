@@ -12,14 +12,25 @@ else()
 	set(TTY /dev/TTY0)
 endif()
 
-set(TTY ${TTY} CACHE STRING "The Unix Serial Device your Arduino is attached to.")
-set(BOARD "uno" CACHE STRING "What type of Arduino are you using?")
+set(rov_PORT ${TTY} CACHE STRING "The Unix Serial Device your Arduino is attached to.")
+set(rov_BOARD "uno" CACHE STRING "What type of Arduino are you using?")
+set(rov_SERIAL screen @SERIAL_PORT@ 19200)
 
 set(rov_SRCS  rov.cpp)
 # set(rov_HDRS  rov.h)
 
-set(rov_BOARD ${BOARD})
-set(rov_PORT ${TTY})
+
+link_directories(${PROJECT_SOURCE_DIR}/ArduinoNunchuk)
 
 generate_arduino_firmware(rov)
+
+generate_arduino_example(ArduinoNunchuk_example
+ 	LIBRARY ArduinoNunchuk	
+	EXAMPLE ArduinoNunchukDemo
+	BOARD ${rov_BOARD}
+	PORT ${rov_PORT}
+	SERIAL ${rov_SERIAL}
+	)
+
+
 
