@@ -5,40 +5,34 @@
  
   This example code is in the public domain.
  */
+#include "Common.h"
 #include <Wire.h>
 #include <ArduinoNunchuk.h>
 
-#if ARDUINO >= 100
-    #include "Arduino.h"
-#else
-    #include "WProgram.h"
-#endif
+#include "Common.h"
+
+#include "ROVNunchukController.h"
+#include "ROVAlgorithms.h"
+#include "ROVMotorController.h"
+
 
 #define BAUDRATE 19200
 
-ArduinoNunchuk nunchuk = ArduinoNunchuk();
+ROVSimpleControlAlgorithm algorithm = ROVSimpleControlAlgorithm();
+ROVNunchukController controller = ROVNunchukController(algorithm);
+ROVTB6612FNGMotorController motorController = ROVTB6612FNGMotorController();
 
-void setup() {                
+void setup() 
+
+{                
   Serial.begin(BAUDRATE);
-  nunchuk.init();
+  Serial.println("Hello World");
+
+  controller.initialize();
 }
 
-void loop() {
-  nunchuk.update();
-
-  Serial.print("X ");
-  Serial.print(nunchuk.analogX, DEC);
-  Serial.print(" Y ");
-  Serial.print(nunchuk.analogY, DEC);
-  Serial.print(" aX ");
-  Serial.print(nunchuk.accelX, DEC);
-  Serial.print(" aY ");
-  Serial.print(nunchuk.accelY, DEC);
-  Serial.print(" aZ ");
-  Serial.print(nunchuk.accelZ, DEC);
-  Serial.print(" zB ");
-  Serial.print(nunchuk.zButton, DEC);
-  Serial.print(" cB ");
-  Serial.println(nunchuk.cButton, DEC);
-  delay(2000);
+void loop() 
+{
+  ROVMotorSettings settings = controller.motorSettings();
+  motorController.setMotors(settings);
 }

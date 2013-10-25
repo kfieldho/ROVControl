@@ -16,9 +16,8 @@ set(rov_PORT ${TTY} CACHE STRING "The Unix Serial Device your Arduino is attache
 set(rov_BOARD "uno" CACHE STRING "What type of Arduino are you using?")
 set(rov_SERIAL screen @SERIAL_PORT@ 19200)
 
-set(rov_SRCS  rov.cpp)
-# set(rov_HDRS  rov.h)
-
+set(rov_SRCS  rov.cpp ROVNunchukController.cpp ROVAlgorithms.cpp ROVMotorController.cpp )
+set(rov_HDRS  ROVNunchukController.h ROVAlgorithms.h ROVMotorController.h )
 
 link_directories(${PROJECT_SOURCE_DIR}/ArduinoNunchuk)
 
